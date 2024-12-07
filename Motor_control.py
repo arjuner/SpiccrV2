@@ -3,7 +3,7 @@
 # Author: Charles Dickens
 # License: This code is provided for personal and educational use. Redistribution and use in source and binary forms are permitted, provided that the above notice and this permission notice are included.
 # ------------------------------------------------------------------------------
-# Description: Python script to control motors using the PCA9685 PWM driver with a Raspberry Pi.
+# Description: Python script to control 3 DC motors using the PCA9685 PWM driver with a Raspberry Pi / Pico / Pico2.
 # ------------------------------------------------------------------------------
 import time
 from machine import Pin, I2C
