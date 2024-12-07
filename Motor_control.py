@@ -1,3 +1,10 @@
+# ------------------------------------------------------------------------------
+# Filename: Motor_control.py
+# Author: Arjun
+# License: This code is provided for personal and educational use. Redistribution and use in source and binary forms are permitted, provided that the above notice and this permission notice are included.
+# ------------------------------------------------------------------------------
+# Description: Python script to control 3 DC motors using the PCA9685 PWM driver with a Raspberry Pi / Pico / Pico2.
+# ------------------------------------------------------------------------------
 import time
 from machine import Pin, I2C
 
@@ -49,48 +56,41 @@ def set_pwm(channel, on_time, off_time):
 
 # Function to control the first motor's speed and direction
 def set_motor1_speed(Lpwm, Rpwm):
+    print(f"Motor 1 - Setting Lpwm: {Lpwm}, Rpwm: {Rpwm}")
     if Lpwm > 0 and Rpwm == 0:
+        # Motor 1 Forward: Set Lpwm to move forward
         set_pwm(15, 0, Lpwm)  # Forward (Left Motor)
         set_pwm(14, 0, 0)     # Stop Reverse (Right Motor)
         print("Motor 1 moving forward")
     elif Rpwm > 0 and Lpwm == 0:
+        # Motor 1 Reverse: Set Rpwm to move reverse
         set_pwm(15, 0, 0)     # Stop Forward (Left Motor)
         set_pwm(14, 0, Rpwm)  # Reverse (Right Motor)
         print("Motor 1 moving reverse")
     else:
+        # Stop motor: Set both to 0
         set_pwm(15, 0, 0)
         set_pwm(14, 0, 0)
         print("Motor 1 stopped")
 
 # Function to control the second motor's speed and direction
 def set_motor2_speed(Lpwm, Rpwm):
+    print(f"Motor 2 - Setting Lpwm: {Lpwm}, Rpwm: {Rpwm}")
     if Lpwm > 0 and Rpwm == 0:
+        # Motor 2 Forward: Set Lpwm to move forward
         set_pwm(1, 0, Lpwm)  # Forward (Left Motor)
         set_pwm(0, 0, 0)     # Stop Reverse (Right Motor)
         print("Motor 2 moving forward")
     elif Rpwm > 0 and Lpwm == 0:
+        # Motor 2 Reverse: Set Rpwm to move reverse
         set_pwm(1, 0, 0)     # Stop Forward (Left Motor)
         set_pwm(0, 0, Rpwm)  # Reverse (Right Motor)
         print("Motor 2 moving reverse")
     else:
+        # Stop motor: Set both to 0
         set_pwm(1, 0, 0)
         set_pwm(0, 0, 0)
         print("Motor 2 stopped")
-
-# Function to control the third motor's speed and direction
-def set_motor3_speed(Lpwm, Rpwm):
-    if Lpwm > 0 and Rpwm == 0:
-        set_pwm(9, 0, Lpwm)  # Forward (Left Motor)
-        set_pwm(10, 0, 0)     # Stop Reverse (Right Motor)
-        print("Motor 3 moving forward")
-    elif Rpwm > 0 and Lpwm == 0:
-        set_pwm(9, 0, 0)     # Stop Forward (Left Motor)
-        set_pwm(10, 0, Rpwm)  # Reverse (Right Motor)
-        print("Motor 3 moving reverse")
-    else:
-        set_pwm(9, 0, 0)
-        set_pwm(10, 0, 0)
-        print("Motor 3 stopped")
 
 # Initialize the PCA9685 and set the PWM frequency
 init_pca9685()
@@ -98,25 +98,34 @@ set_pwm_frequency(50)  # Set PWM frequency to 50Hz (standard for motors)
 
 try:
     while True:
-        # Move all motors forward for 5 seconds
-        print("All motors moving forward")
-        set_motor1_speed(3000, 0)
-        set_motor2_speed(3000, 0)
-        set_motor3_speed(3000, 0)
-        time.sleep(5)
+        # Test motor 1 forward
+        print("Testing Motor 1 forward")
+        set_motor1_speed(1500, 0)
+        time.sleep(2)
 
-        # Move all motors in reverse for 5 seconds
-        print("All motors moving in reverse")
-        set_motor1_speed(0, 3000)
-        set_motor2_speed(0, 3000)
-        set_motor3_speed(0, 3000)
-        time.sleep(5)
+        # Test motor 1 reverse
+        print("Testing Motor 1 reverse")
+        set_motor1_speed(0, 1500)
+        time.sleep(2)
 
-        # Stop all motors
-        print("Stopping all motors")
+        # Stop both motors
         set_motor1_speed(0, 0)
         set_motor2_speed(0, 0)
-        set_motor3_speed(0, 0)
+        time.sleep(2)
+        
+        # Test motor 2 forward
+        print("Testing Motor 2 forward")
+        set_motor2_speed(1500, 0)
+        time.sleep(2)
+
+        # Test motor 2 reverse
+        print("Testing Motor 2 reverse")
+        set_motor2_speed(0, 1500)
+        time.sleep(2)
+
+        # Stop both motors
+        set_motor1_speed(0, 0)
+        set_motor2_speed(0, 0)
         time.sleep(2)
 
 except KeyboardInterrupt:
@@ -124,5 +133,4 @@ except KeyboardInterrupt:
     # Stop motors on exit
     set_motor1_speed(0, 0)
     set_motor2_speed(0, 0)
-    set_motor3_speed(0, 0)
 
